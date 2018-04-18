@@ -87,7 +87,7 @@ function fetchJson(index, next) {
 
 
 function callback(index) {
-	if (index < 2) {
+	if (index < 100) {
 		fetchJson(index, callback)
 	}
 }

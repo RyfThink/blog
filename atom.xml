@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://ryfthink.github.com/"/>
-  <updated>2018-04-18T06:57:27.000Z</updated>
+  <updated>2018-04-18T08:40:29.000Z</updated>
   <id>http://ryfthink.github.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>如何将 cli package 发布到 npm 仓库</title>
+    <title>Publishing cli-package to npm repository</title>
     <link href="http://ryfthink.github.com/2018/03/18/%E5%A6%82%E4%BD%95%E5%B0%86-cli-package-%E5%8F%91%E5%B8%83%E5%88%B0-npm-%E4%BB%93%E5%BA%93/"/>
     <id>http://ryfthink.github.com/2018/03/18/如何将-cli-package-发布到-npm-仓库/</id>
     <published>2018-03-18T06:47:33.000Z</published>
-    <updated>2018-04-18T06:57:27.000Z</updated>
+    <updated>2018-04-18T08:40:29.000Z</updated>
     
     <summary type="html">
     

@@ -78,7 +78,8 @@ if theme.gitalk.enable == true
         repo: '#{theme.gitalk.repo}',
         owner: '#{theme.gitalk.owner}',
         admin: ['#{theme.gitalk.admin}'],
-        distractionFreeMode: false
+        distractionFreeMode: false,
+        id: location.pathname
       })
       gitalk.render('container')
 

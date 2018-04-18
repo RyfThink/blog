@@ -16,7 +16,7 @@ gitalk:
   repo: blog-comment ## The repository to store your comments, make sure you're the repo's owner, e.g. gitalk.github.io
   client_id: b9c9fa93919f96a68da2 ## GitHub client ID, e.g. 75752dafe7907a897619
   client_secret: a6f794fb428cf3622e117143d47e3dc9950b937f ## GitHub client secret, e.g. ec2fb9054972c891289640354993b662f4cccc50
-  admin: ryfthink ## Github repo owner and collaborators, only these guys can initialize github issues.
+  admin: ['ryfthink'] ## Github repo owner and collaborators, only these guys can initialize github issues.
 valine: ## https://valine.js.org
   enable: false ## If you want to use Valine comment system, please set the value to true.
   appid: ## Your LeanCloud application App ID, e.g. pRBBL2JR4N7kLEGojrF0MsSs-gzGzoHsz
@@ -81,9 +81,11 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
+  - title: MEAN栈博客
+    url: https://mean.septenary.cn
   - title: 馒头映像
     url: https://www.jianshu.com/u/af0f90bf5ff5
-  - title: 阿忠艺术长廊
+  - title: AZhongArtist
     url: https://ryfthink.github.io/azhong/
   - title: 剑老湿
     url: https://www.jianshu.com/u/67eb55a34561

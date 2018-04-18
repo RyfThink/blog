@@ -1,5 +1,5 @@
 ---
-title: 如何将 cli package 发布到 npm 仓库
+title: 向 npm 仓库发布 cli package
 date: 2018-03-18 14:47:33
 categories: node
 tags: cli

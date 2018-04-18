@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://ryfthink.github.com/"/>
-  <updated>2018-04-18T08:54:55.389Z</updated>
+  <updated>2018-04-18T09:13:17.000Z</updated>
   <id>http://ryfthink.github.com/</id>
   
   <author>
@@ -17,25 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>testpost</title>
-    <link href="http://ryfthink.github.com/2018/04/18/testpost/"/>
-    <id>http://ryfthink.github.com/2018/04/18/testpost/</id>
-    <published>2018-04-18T08:54:55.000Z</published>
-    <updated>2018-04-18T08:54:55.389Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Publishing cli-package to npm repository</title>
+    <title>向 npm 仓库发布 cli package</title>
     <link href="http://ryfthink.github.com/2018/03/18/pub-clipkg-npm-repo/"/>
     <id>http://ryfthink.github.com/2018/03/18/pub-clipkg-npm-repo/</id>
     <published>2018-03-18T06:47:33.000Z</published>
-    <updated>2018-04-18T08:52:46.074Z</updated>
+    <updated>2018-04-18T09:13:17.000Z</updated>
     
     <summary type="html">
     

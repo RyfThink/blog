@@ -18,9 +18,10 @@ function fetchJson(index, next) {
 					const parsedData = JSON.parse(rawData);
 					var data = parsedData.data
 					if (parsedData.data != null) {
-						debugger;
 						console.log(index + " result fetched: " + parsedData.data.author.name);
-						var file = fs.createWriteStream('post/' + parsedData.data.author._id + '/' + parsedData.data.title.replace('/', '-') + ".md");
+
+						var file = fs.createWriteStream('./source/_drafts/' + parsedData.data.author.name + "_" + parsedData.data.title.replace('/', '-') + ".md");
+
 						// res.pipe(file);
 						file.write('---')
 						file.write('\n')
@@ -34,22 +35,19 @@ function fetchJson(index, next) {
 
 						file.write('date: ')
 						// file.write(new Date(data.createdTime).format('yyyy/MM/dd HH:MM:ss'))
-						file.write(dateFormat(new Date(data.createdTime), "yyyy/mm/dd hh:MM:ss"))
+						file.write(dateFormat(new Date(data.createdTime), "yyyy-mm-dd hh:MM:ss"))
 						file.write('\n')
 
 						file.write('category: ' + data.category)
 						file.write('\n')
 
-						file.write('tag:')
+						file.write('tags:')
 						data.tags.forEach(element => {
 							file.write(' ' + element)
 						});
 						file.write('\n')
 
 						file.write('comments:')
-						file.write('\n')
-
-						file.write('tags:')
 						file.write('\n')
 
 						file.write('categories:')
@@ -89,7 +87,7 @@ function fetchJson(index, next) {
 
 
 function callback(index) {
-	if (index < 100) {
+	if (index < 2) {
 		fetchJson(index, callback)
 	}
 }

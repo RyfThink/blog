@@ -82,7 +82,7 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
 
 links:
   - title: MEAN栈博客
-    url: https://mean.septenary.cn
+    url: mean.septenary.cn
   - title: 馒头映像
     url: https://www.jianshu.com/u/af0f90bf5ff5
   - title: AZhongArtist
@@ -96,7 +96,7 @@ timeline:
   - num: 2
     word: 2014/10 使用 HEXO 建站, 静态网页托管在 GITHUB 上, 使用 NEXT主题
   - num: 3
-    word: 2017/04 采用 MEAN 栈重新开发多人博客 www.septenary.cn, 托管在阿里云 CES
+    word: 2017/04 采用 MEAN 栈重新开发多人博客 mean.septenary.cn, 托管在阿里云 CES
   - num: 4 
     word: 2018/02 重新回归 HEXO, 使用 MAUPASSANT 主题
 

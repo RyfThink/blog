@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Septenary Blog</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://ryfthink.github.com/"/>
+  <link href="http://www.septenary.cn/"/>
   <updated>2018-04-18T09:13:17.000Z</updated>
-  <id>http://ryfthink.github.com/</id>
+  <id>http://www.septenary.cn/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Septenary</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>向 npm 仓库发布 cli package</title>
-    <link href="http://ryfthink.github.com/2018/03/18/pub-clipkg-npm-repo/"/>
-    <id>http://ryfthink.github.com/2018/03/18/pub-clipkg-npm-repo/</id>
+    <link href="http://www.septenary.cn/2018/03/18/pub-clipkg-npm-repo/"/>
+    <id>http://www.septenary.cn/2018/03/18/pub-clipkg-npm-repo/</id>
     <published>2018-03-18T06:47:33.000Z</published>
     <updated>2018-04-18T09:13:17.000Z</updated>
     
@@ -29,10 +29,10 @@
     
     </summary>
     
-      <category term="node" scheme="http://ryfthink.github.com/categories/node/"/>
+      <category term="node" scheme="http://www.septenary.cn/categories/node/"/>
     
     
-      <category term="cli" scheme="http://ryfthink.github.com/tags/cli/"/>
+      <category term="cli" scheme="http://www.septenary.cn/tags/cli/"/>
     
   </entry>
   

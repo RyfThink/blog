@@ -82,7 +82,7 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
 
 links:
   - title: MEAN栈博客
-    url: mean.septenary.cn
+    url: http://mean.septenary.cn
   - title: 馒头映像
     url: https://www.jianshu.com/u/af0f90bf5ff5
   - title: AZhongArtist

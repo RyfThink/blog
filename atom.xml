@@ -249,6 +249,24 @@
   </entry>
   
   <entry>
+    <title>《Effective Java》读书笔记</title>
+    <link href="http://www.septenary.cn/2016/05/01/effective-java-learning/"/>
+    <id>http://www.septenary.cn/2016/05/01/effective-java-learning/</id>
+    <published>2016-05-01T04:00:00.000Z</published>
+    <updated>2018-04-20T11:16:39.000Z</updated>
+    
+    <summary type="html">
+    
+      少年, Java 葵花宝典了解一下~
+    
+    </summary>
+    
+      <category term="它山之石" scheme="http://www.septenary.cn/categories/%E5%AE%83%E5%B1%B1%E4%B9%8B%E7%9F%B3/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>UINPUT 事件注入</title>
     <link href="http://www.septenary.cn/2016/01/16/uinput-event-injection/"/>
     <id>http://www.septenary.cn/2016/01/16/uinput-event-injection/</id>
@@ -354,6 +372,24 @@
   </entry>
   
   <entry>
+    <title>Android Gradle Multi Flavors</title>
+    <link href="http://www.septenary.cn/2015/11/08/multi-flavor-in-android/"/>
+    <id>http://www.septenary.cn/2015/11/08/multi-flavor-in-android/</id>
+    <published>2015-11-08T04:00:00.000Z</published>
+    <updated>2018-04-20T11:20:53.000Z</updated>
+    
+    <summary type="html">
+    
+      Android 打包是不是很麻烦，multi flavor 走起~
+    
+    </summary>
+    
+      <category term="Android" scheme="http://www.septenary.cn/categories/Android/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>AndroidStudio Option 快捷键失效</title>
     <link href="http://www.septenary.cn/2015/08/15/quickshot-option-notwork-in-android/"/>
     <id>http://www.septenary.cn/2015/08/15/quickshot-option-notwork-in-android/</id>
@@ -368,44 +404,6 @@
     
       <category term="Chore" scheme="http://www.septenary.cn/categories/Chore/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>WeakHandler 技术分析</title>
-    <link href="http://www.septenary.cn/2015/08/07/weak-handler-in-android/"/>
-    <id>http://www.septenary.cn/2015/08/07/weak-handler-in-android/</id>
-    <published>2015-08-07T04:00:00.000Z</published>
-    <updated>2018-04-20T08:25:45.000Z</updated>
-    
-    <summary type="html">
-    
-      Android 中关于 Handler 内存泄露的讨论
-    
-    </summary>
-    
-      <category term="Android" scheme="http://www.septenary.cn/categories/Android/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Gihub 域名配置 Page build warning</title>
-    <link href="http://www.septenary.cn/2015/08/01/gihub-page-build-warning/"/>
-    <id>http://www.septenary.cn/2015/08/01/gihub-page-build-warning/</id>
-    <published>2015-08-01T02:27:13.000Z</published>
-    <updated>2018-04-20T08:19:32.072Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;为什么我托管在 github 上的静态博客总会收到 CNAME 的警告邮件呢?&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="github" scheme="http://www.septenary.cn/categories/github/"/>
-    
-    
-      <category term="CNAME" scheme="http://www.septenary.cn/tags/CNAME/"/>
     
   </entry>
   

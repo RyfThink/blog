@@ -1,14 +1,9 @@
 ---
 title: Android Studio 支持NDK的 实验插件
-description:
+categories: Android
 date: 2015-07-18 12:00:00
-category: undefined
-tags: Android
-comments:
-categories:
-permalink:
+description: NDK 插件是啥，是不是写 c/c++ 代码就方便很多啦
 ---
-
 
 # 实验插件是啥
 在 Android Studio 1.3.0 中 Google 为支持NDK ，添加了 **实验插件 (experimental-plugin)** ，想要在 Android Studio 中完成 Native 的编译构建工作，就必须要用到该插件。
@@ -175,4 +170,4 @@ android {
 ```
 
 ## 4.Samples
-关于 Android Studio 上开发 JNI ,  有很多官方提供的例子，[戳这里Github](https://github.com/googlesamples/android-ndk.)
+关于 Android Studio 上开发 JNI ,  有很多官方提供的例子，[戳这里Github](https://github.com/googlesamples/android-ndk)

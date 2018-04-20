@@ -1,16 +1,11 @@
 ---
 title: Android Gradle Multi Flavors
-description:
+categories: Android
 date: 2015-11-08 12:00:00
-category: undefined
-tags: Android
-comments:
-categories:
-permalink:
+description: Android 打包是不是很麻烦，multi flavor 走起~
 ---
 
-
-试想一下我们用 **Gradle** 构建多个渠道包，而且这些渠道包都是有差异的，可能是包名不同，可能是代码不同，也可能是资源不同，**flavors**  这个概念由此产生，用  **flavors** 来配置构建脚本 **build.gradle** ，可以构建 Android 工程的多个变种
+我们用 **Gradle** 构建多个渠道包，而且这些渠道包都是有差异的，可能是包名不同，可能是代码不同，也可能是资源不同，**flavors**  这个概念由此产生，用  **flavors** 来配置构建脚本 **build.gradle** ，可以构建 Android 工程的多个变种
 
 最简单的 flavors 配置
 ---
@@ -19,10 +14,10 @@ permalink:
 
 ```java
 productFlavors {
-		googlePlay {
-		}
-		appStore {
-		}
+	googlePlay {
+	}
+	appStore {
+	}
 }
 ```
 
@@ -37,12 +32,12 @@ productFlavors {
 
 ```java
 productFlavors {
-		googlePlay {
-				applicationId 'cn.septenary.mulityflavors_googlePlay'
-		}
-		appStore {
-				applicationId 'cn.septenary.mulityflavors_appStore'
-		}
+	googlePlay {
+			applicationId 'cn.septenary.mulityflavors_googlePlay'
+	}
+	appStore {
+			applicationId 'cn.septenary.mulityflavors_appStore'
+	}
 }
 ```
 
@@ -54,12 +49,12 @@ productFlavors {
 
 ```java
 productFlavors {
-		googlePlay {
-				buildConfigField "String","SotreName","\"Google 应用商店\""
-		}
-		appStore {
-				buildConfigField "String","SotreName","\"苹果 应用商店\""
-		}
+	googlePlay {
+			buildConfigField "String","SotreName","\"Google 应用商店\""
+	}
+	appStore {
+			buildConfigField "String","SotreName","\"苹果 应用商店\""
+	}
 }
 ```
 
@@ -72,8 +67,8 @@ productFlavors {
  
 ```java
 productFlavors.all { flavor ->
-		// replace all buildConfigField -> SotreName
-		flavor.buildConfigField 'String', 'SotreName', '"默认商店名"'
+	// replace all buildConfigField -> SotreName
+	flavor.buildConfigField 'String', 'SotreName', '"默认商店名"'
 }
 ```
 
@@ -86,7 +81,7 @@ productFlavors.all { flavor ->
    
 ```xml
 <resources>
-		<string name="app_name">Flavor: Google Play</string>
+	<string name="app_name">Flavor: Google Play</string>
 </resources>
 ```
 
@@ -95,7 +90,7 @@ productFlavors.all { flavor ->
 
 ```xml
 <resources>
-		<string name="app_name">Flavor: App Store</string>
+	<string name="app_name">Flavor: App Store</string>
 </resources>
 ```    
 
@@ -116,10 +111,9 @@ productFlavors.all { flavor ->
  
  ```xml
 <application>;
-		<meta-data
-						android:name="CHANNEL"
-						android:value="${CHANNEL_VALUE}"/>
-				。。。
+	<meta-data
+		android:name="CHANNEL"
+		android:value="${CHANNEL_VALUE}"/>
 </application>
 ```
 
@@ -129,23 +123,23 @@ productFlavors.all { flavor ->
 
 ```groovy
 defaultConfig {
-		// Placeholder
-		manifestPlaceholders = [CHANNEL_VALUE: 'channel_testing']
+	// Placeholder
+	manifestPlaceholders = [CHANNEL_VALUE: 'channel_testing']
 }
 
 productFlavors.all { flavor ->
-		// replace all placeholders
-		flavor.manifestPlaceholders.put("CHANNEL_VALUE", name)
+	// replace all placeholders
+	flavor.manifestPlaceholders.put("CHANNEL_VALUE", name)
 }
 
 productFlavors {
-		googlePaly {
-				...
-		}
-		appStore {
-				...
-				manifestPlaceholders.put("CHANNEL_VALUE", 'channel_appstore')
-		}
+	googlePaly {
+		...
+	}
+	appStore {
+		...
+		manifestPlaceholders.put("CHANNEL_VALUE", 'channel_appstore')
+	}
 }
 ```
 
@@ -160,9 +154,9 @@ productFlavors {
    
 ```groovy
 def buildTime() {
-		def date = new Date()
-		def formattedDate = date.format('yyyy-MM-dd')
-		return formattedDate
+	def date = new Date()
+	def formattedDate = date.format('yyyy-MM-dd')
+	return formattedDate
 }
 ```
 
@@ -173,11 +167,11 @@ def buildTime() {
 
 ```groovy
 applicationVariants.all { variant ->
-		variant.outputs.each { output ->
-				def parent = output.outputFile.parent;
-				def apkName = "${variant.flavorName}_${variant.versionName}_${buildTime()}.apk"
-				output.outputFile = new File(parent, apkName);
-		}
+	variant.outputs.each { output ->
+		def parent = output.outputFile.parent;
+		def apkName = "${variant.flavorName}_${variant.versionName}_${buildTime()}.apk"
+		output.outputFile = new File(parent, apkName);
+	}
 }
 ```
 
@@ -186,23 +180,23 @@ applicationVariants.all { variant ->
  
 ```groovy
 buildTypes {
-		release {
-				...
-		}
-		debug {
-				applicationVariants.all { variant ->
-						variant.outputs.each { output ->
-								if (output.outputFile != null 
-								&& output.outputFile.name.endsWith('.apk') 
-								&&'debug'.equals(variant.buildType.name){
-										def parent = output.outputFile.getParent();
-										def apkName = "${variant.flavorName}_${variant.versionName}_${buildTime()}.apk"
-										def apkFile = new File(parent,apkName)
-										output.outputFile = apkFile
-								}
-						}
+	release {
+			...
+	}
+	debug {
+		applicationVariants.all { variant ->
+			variant.outputs.each { output ->
+				if (output.outputFile != null 
+				&& output.outputFile.name.endsWith('.apk') 
+				&&'debug'.equals(variant.buildType.name){
+						def parent = output.outputFile.getParent();
+						def apkName = "${variant.flavorName}_${variant.versionName}_${buildTime()}.apk"
+						def apkFile = new File(parent,apkName)
+						output.outputFile = apkFile
 				}
+			}
 		}
+	}
 }
 ```
     

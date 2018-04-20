@@ -1,13 +1,11 @@
 ---
 title: 《Effective Java》读书笔记
-description:
+categories: 它山之石
+description: 少年, Java 葵花宝典了解一下~
 date: 2016-05-01 12:00:00
-category: undefined
-tags: java
-comments:
-categories:
-permalink:
+tags:
 ---
+
 
 
 ## 1.考虑用静态工厂方法代替构造器
@@ -799,6 +797,6 @@ try{
 
 ## 77.对于实例控制，枚举类型优先于readResolve
 
-##78.考虑使用序列化代理代替序列化实例
+## 78.考虑使用序列化代理代替序列化实例
 
-[转自](https://iamjohnnyzhuang.github.io/java/2017/03/29/Effective-Java-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%89%AF%E6%9C%AC.html)
+[原文转自](https://iamjohnnyzhuang.github.io/java/2017/03/29/Effective-Java-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%89%AF%E6%9C%AC.html)

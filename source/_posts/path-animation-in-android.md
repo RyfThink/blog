@@ -1,14 +1,9 @@
 ---
 title: Android path-animation
-description:
-date: 2015-06-01 12:00:00
-category: undefined
-tags: Android
-comments:
-categories:
-permalink:
+categories: Android
+date: 2014-06-01 12:00:00
+description: 路径动画有意思~
 ---
-
 
 `PathAnimation`  路径动画是指将视图节点沿着指定路径执行动画
 
@@ -18,7 +13,7 @@ permalink:
 
 在 **API 21** 之后`ObjectAnimator` 添加了 **Path animation** 的支持，下面是 **API 21** 中 **PathAnimation Demo **的完整路径
 
-> ~/sdk/samples/android-22/legacy/ApiDemos/src/com/example/android/apis/animation/PathAnimations.java
+*~/sdk/samples/android-22/legacy/ApiDemos/src/com/example/android/apis/animation/PathAnimations.java*
 
 <!--more-->
 
@@ -110,6 +105,4 @@ pathMeasure(pathMeasure.getLength() * interpolatedTime, position, null);
 2. `PathMeasure`   通过 `interpolatedTime`  计算时间节点对应的`position`
 有了`position`，就可以改变每一帧视图节点所在的位置了
 
-
-附赠所有方法的实现demo ，戳这里[github][1]
-[1]:https://github.com/Ryfthink/PathAnimation
+简单实现的 demo ，[戳这里](https://github.com/Ryfthink/PathAnimation)

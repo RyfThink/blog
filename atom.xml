@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.septenary.cn/"/>
-  <updated>2018-04-18T09:13:17.000Z</updated>
+  <updated>2018-04-20T02:50:01.000Z</updated>
   <id>http://www.septenary.cn/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>向 npm 仓库发布 cli package</title>
+    <title>Publishing cli-package to npm repository</title>
     <link href="http://www.septenary.cn/2018/03/18/pub-clipkg-npm-repo/"/>
     <id>http://www.septenary.cn/2018/03/18/pub-clipkg-npm-repo/</id>
     <published>2018-03-18T06:47:33.000Z</published>
-    <updated>2018-04-18T09:13:17.000Z</updated>
+    <updated>2018-04-20T02:50:01.000Z</updated>
     
     <summary type="html">
     
@@ -33,6 +33,46 @@
     
     
       <category term="cli" scheme="http://www.septenary.cn/tags/cli/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MEAN 栈实践之 在 CVM、AWS 上的的部署小记</title>
+    <link href="http://www.septenary.cn/2017/03/02/mean-practice-on-cvm-aws/"/>
+    <id>http://www.septenary.cn/2017/03/02/mean-practice-on-cvm-aws/</id>
+    <published>2017-03-02T04:00:00.000Z</published>
+    <updated>2018-04-20T02:49:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;简单记录了当初考虑在 &lt;strong&gt;腾讯云&lt;/strong&gt; 还是 &lt;strong&gt;AWS&lt;/strong&gt; 部署服务的小记，虽然最终还是在 阿里云上部署。。。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="devOps" scheme="http://www.septenary.cn/tags/devOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android 盒子适配解决办法汇总</title>
+    <link href="http://www.septenary.cn/2015/12/10/android-box-adaption/"/>
+    <id>http://www.septenary.cn/2015/12/10/android-box-adaption/</id>
+    <published>2015-12-10T04:00:00.000Z</published>
+    <updated>2018-04-20T03:38:57.105Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;虽然现在大部分盒子和智能电视都是1080P或720P的分辨率，但考虑到有些山寨厂商的分辨率并没有按照标准执行，我们通常用 dp 在不同分辨率上做的适配方案所达到的适配效果在部分盒子上并不理想，而且工程量也大。这就产生了怎么样做好一次布局，多处适配的方案。下面分别介绍一下我收集到的三种适配方案，以及各自的优劣之处。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://www.septenary.cn/categories/Android/"/>
+    
+    
+      <category term="Android" scheme="http://www.septenary.cn/tags/Android/"/>
     
   </entry>
   

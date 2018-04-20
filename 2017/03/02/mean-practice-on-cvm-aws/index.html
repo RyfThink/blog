@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>MEAN 栈实践之 在 CVM、AWS 上的的部署小记 | Septenary Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">MEAN 栈实践之 在 CVM、AWS 上的的部署小记</h1><a id="logo" href="/.">Septenary Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">MEAN 栈实践之 在 CVM、AWS 上的的部署小记</h1><div class="post-meta">Mar 2, 2017<span> | </span><span class="category"><a href="/categories/devOps/">devOps</a></span></div><div class="post-content"><p>简单记录了当初考虑在 <strong>腾讯云</strong> 还是 <strong>AWS</strong> 部署服务的小记，虽然最终还是在 阿里云上部署。。。</p>
+<a id="more"></a>
+<h1 id="Ⅰ-腾讯云-CVM-部署"><a href="#Ⅰ-腾讯云-CVM-部署" class="headerlink" title="Ⅰ. 腾讯云 CVM 部署"></a>Ⅰ. 腾讯云 CVM 部署</h1><p>考虑数据库与服务器配置在同一主机上，勾选磁盘空间</p>
+<h2 id="配置-ssh-公钥"><a href="#配置-ssh-公钥" class="headerlink" title="配置 ssh 公钥"></a>配置 ssh 公钥</h2><p>1.本地 <code>ssh-keygen</code> 生成密钥, 在 <code>~/.ssh/config</code> 中添访问配置</p>
+<pre><code><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host qcloud</span><br><span class="line">	HostName 公网IP</span><br><span class="line">	User root</span><br><span class="line">	Port 22</span><br><span class="line">	IdentityFile ~/.ssh/qcloud_rsa</span><br></pre></td></tr></table></figure>
+</code></pre><p>2.在云主机配置公钥<br>3.连接云主机 <code>ssh qcloud</code></p>
+<h2 id="MongoDB-的安装"><a href="#MongoDB-的安装" class="headerlink" title="MongoDB 的安装"></a>MongoDB 的安装</h2><p>1.连接云主机</p>
+<p>2.编辑 <code>/etc/yum.repos.d/mongodb-org-3.4.repo</code> 文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[mongodb-org-3.4]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc</span><br></pre></td></tr></table></figure>
+<p>3.执行 <code>sudo yum install -y mongodb-org</code> 进行安装</p>
+<p>4.对于类 <strong>SELinux</strong> 系统 ，需要置成 <strong>disabled</strong></p>
+<p>5.<strong>mongod</strong> 操作: <code>sudo service mongod</code> + <code>start</code> , <code>stop</code> , <code>restart</code></p>
+<p>6.配置开机自启动 <code>sudo chkconfig mongod on</code></p>
+<hr>
+<h1 id="Ⅱ-AWS-部署"><a href="#Ⅱ-AWS-部署" class="headerlink" title="Ⅱ. AWS 部署"></a>Ⅱ. AWS 部署</h1><h2 id="安全组配置"><a href="#安全组配置" class="headerlink" title="安全组配置"></a>安全组配置</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>协议</th>
+<th>端口范围</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP</td>
+<td>TCP</td>
+<td>80</td>
+<td>0.0.0.0/0</td>
+</tr>
+<tr>
+<td>所有 ICMP</td>
+<td>全部</td>
+<td>不适用</td>
+<td>0.0.0.0/0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="退出-SSH-继续运行程序"><a href="#退出-SSH-继续运行程序" class="headerlink" title="退出 SSH 继续运行程序"></a>退出 SSH 继续运行程序</h2><ol>
+<li>执行 <code>screen</code> 进入子界面</li>
+<li>执行程序 <code>sudo node ./bin/www</code></li>
+<li><code>ctrl + A</code> 后键入 <code>D</code> 退出子界面</li>
+<li>退出 SSH，程序会继续运行</li>
+<li><p>再次连接 SSH，执行 <code>screen -ls</code> 查看由screen维护的进程id</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">There is a screen on:</span><br><span class="line">20232.pts-0.ip-172-31-30-2	(01/19/17 07:24:36)(Detached)</span><br><span class="line">1 Socket in /var/run/screen/S-ubuntu.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>screen -r 20232.pts-0.ip-172-31-30-2</code> 进入子界面管理 node 进程</p>
+</li>
+</ol>
+<h2 id="使用PM2管理程序"><a href="#使用PM2管理程序" class="headerlink" title="使用PM2管理程序"></a>使用PM2管理程序</h2><ol>
+<li>安装pm2 <code>[sudo] npm install pm2 -g</code></li>
+<li><p>创建一个apps.json，然后通过pm2 start apps.json来启动apps.json里面定义的apps，该文件就是一个json格式的配置文件，告诉pm2该怎么去启动app，启动哪些app。比如：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">	"name":"your app name",</span><br><span class="line">	"script":"the script to start your app",</span><br><span class="line">	"cwd":"change working directory", // 指定该app工作目录，这样pm2会相对这个目录去找脚本之类的。</span><br><span class="line">	"error_file":"app-err.log",</span><br><span class="line">	"out_file":"app-out.log",</span><br><span class="line">	"pid_file":"app.pid",</span><br><span class="line">	"one_launch_only":"true",</span><br><span class="line">	"env": &#123;</span><br><span class="line">		"NODE_ENV":"production"</span><br><span class="line">	&#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://www.jianshu.com/p/fdc12d82b661" target="_blank" rel="noopener">参考</a></p>
+</li>
+</ol>
+<h2 id="保证-mongod-在-nodejs-前启动"><a href="#保证-mongod-在-nodejs-前启动" class="headerlink" title="保证 mongod 在 nodejs 前启动"></a>保证 mongod 在 nodejs 前启动</h2><p><a href="http://antrikshy.com/blog/run-mongodb-automatically-nodejs-project" target="_blank" rel="noopener">Link</a></p>
+</div><div class="tags"><a href="/tags/devOps/">devOps</a></div><div class="post-nav"><a class="pre" href="/2018/03/18/pub-clipkg-npm-repo/">Publishing cli-package to npm repository</a><a class="next" href="/2015/12/10/android-box-adaption/">Android 盒子适配解决办法汇总</a></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=0.0.0"><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=0.0.0"></script><script>var gitalk = new Gitalk({
+  clientID: 'b9c9fa93919f96a68da2',
+  clientSecret: 'a6f794fb428cf3622e117143d47e3dc9950b937f',
+  repo: 'blog-comment',
+  owner: 'ryfthink',
+  admin: ['ryfthink'],
+  distractionFreeMode: false,
+  id: location.pathname
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devOps/">devOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/devOps/" style="font-size: 15px;">devOps</a> <a href="/tags/cli/" style="font-size: 15px;">cli</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/18/pub-clipkg-npm-repo/">Publishing cli-package to npm repository</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/mean-practice-on-cvm-aws/">MEAN 栈实践之 在 CVM、AWS 上的的部署小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/android-box-adaption/">Android 盒子适配解决办法汇总</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://mean.septenary.cn" title="MEAN栈博客" target="_blank">MEAN栈博客</a><ul></ul><a href="https://www.jianshu.com/u/af0f90bf5ff5" title="馒头映像" target="_blank">馒头映像</a><ul></ul><a href="https://ryfthink.github.io/azhong/" title="AZhongArtist" target="_blank">AZhongArtist</a><ul></ul><a href="https://www.jianshu.com/u/67eb55a34561" title="剑老湿" target="_blank">剑老湿</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Septenary Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

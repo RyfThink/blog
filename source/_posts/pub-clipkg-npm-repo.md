@@ -1,5 +1,5 @@
 ---
-title: 向 npm 仓库发布 cli package
+title: Publishing cli-package to npm repository
 date: 2018-03-18 14:47:33
 categories: node
 tags: cli
@@ -9,12 +9,12 @@ tags: cli
 
 <!--more-->
 
-## 定义 `package.json` 需要的字段
+## 首先在 `package.json` 中定义几个必要的字段
 
-- cli名称 `sepcontacto`
+- cli 名称定义为 `sepcontacto`
 - 版本号 `1.0.0`
 - 指定 cli 入口 `"bin": "./contact.js"`
-- preferGlobal
+- 设置 preferGlobal
 
 ```javascript
 {
@@ -34,9 +34,9 @@ tags: cli
 
 ## 注册账号
 
-在 npmjs.com 注册账号后
+在 npmjs.com 注册账号
 
-在 https://www.npmjs.com/~septenary 可以查看自己账号下发布的 package
+同时可以在 https://www.npmjs.com/~septenary 可以查看自己账号下发布的 package
 
 ## 给 npm 配置账号信息
 
@@ -56,7 +56,7 @@ npm publish
 
 ## 验证
 
-发布成功后，就可以想普通 package 那样安装自己的包了
+发布成功后，就可以像普通 package 那样安装自己的包了
 
 ```javascript
 npm install sepcontacto -g

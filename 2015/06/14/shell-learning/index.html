@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Shell Script初级编程 | Septenary Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Shell Script初级编程</h1><a id="logo" href="/.">Septenary Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Shell Script初级编程</h1><div class="post-meta">Jun 14, 2015<span> | </span><span class="category"><a href="/categories/Linux/">Linux</a></span></div><div class="post-content"><h1 id="Shell-amp-Shell-Script"><a href="#Shell-amp-Shell-Script" class="headerlink" title="Shell &amp; Shell Script"></a>Shell &amp; Shell Script</h1><ul>
+<li>Shell 是解释并执行 Shell 脚本的一个应用程序，提供一个图形界面实现人机交互</li>
+<li>ShellScript 是为Shell应用程序编写的脚本，我们可以通过编写的shell脚本执行某些命令，访问操作系统内核服务等</li>
+</ul>
+<p>下面是 <strong>Unix</strong> 环境下的一个简单的 “Hello World” 脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh  </span><br><span class="line">echo "Hello Shell"</span><br></pre></td></tr></table></figure>
+<p>第一行指定sh作为该脚本的解释器<br>第二行输出文本</p>
+<a id="more"></a>
+<hr>
+<h1 id="Shell-的种类"><a href="#Shell-的种类" class="headerlink" title="Shell 的种类"></a>Shell 的种类</h1><p>Shell 有很多种类型，在 <strong>Unix</strong> 中主要有两大阵营的类型</p>
+<ul>
+<li>Bourne shell  (终端内以 <strong>$</strong> 开头)<ul>
+<li>Bourne Shell (sh)</li>
+<li>Korn Shell (ksh)</li>
+<li>Bourne Again Shell (bash)</li>
+<li>POSIX Shell (sh)</li>
+</ul>
+</li>
+<li>C shell （终端内以 <strong>%</strong> 开头)<ul>
+<li>C Shell (csh)</li>
+<li>TENEX/TOPS Shell (tcsh)</li>
+</ul>
+</li>
+</ul>
+<p>tips1: 本文主要基于 <strong>sh</strong> 的脚本开发进行讲解</p>
+<p>tips2: 像 Shell 这种 <strong>脚本–解释器</strong> 的方式，我们也可以用高级语言编写脚本，然后用其对应的解释器执行脚本,比如：</p>
+<ul>
+<li>用  <strong>php</strong>  语言编写脚本，然后用 <code>/usr/bin/php</code> 执行该脚本</li>
+<li>用 <strong>java</strong> 语言编写脚本，然后用 <strong>jshell</strong> 执行该脚本</li>
+</ul>
+<hr>
+<h1 id="Shell-Prompt"><a href="#Shell-Prompt" class="headerlink" title="Shell Prompt"></a>Shell Prompt</h1><p>Shell Prompt 命令行提示符，当执行某些操作时，终端行首显示的友好提示</p>
+<p>1.<strong>PS1</strong></p>
+<p>终端提示，我们可以通过修改PS1变量设置提示符的内容，提示符的颜色，以及shell窗口的标题栏文字等，当我打开终端时，行首提示是这样子的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~ Septenary$</span><br></pre></td></tr></table></figure>
+<p>查看PS1 <code>echo $PS1</code> 会看到</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\w \u\$</span><br></pre></td></tr></table></figure>
+<p>我们来修改下PS1，在终端上输入 <code>PS1=&#39;\A:\w\$&#39;</code> ，这时行首会变成</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">16:08:~$</span><br></pre></td></tr></table></figure>
+<p>下面是PS1中部分转义字符的含义</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">\a</td>
+<td style="text-align:left">ASCII bell character (也可以写成\007)</td>
+</tr>
+<tr>
+<td style="text-align:left">\d</td>
+<td style="text-align:left">日期，格式为”Wed Sep 06”</td>
+</tr>
+<tr>
+<td style="text-align:left">\h</td>
+<td style="text-align:left">完整主机名的第一部分</td>
+</tr>
+<tr>
+<td style="text-align:left">\H</td>
+<td style="text-align:left">完整的主机名</td>
+</tr>
+<tr>
+<td style="text-align:left">\j</td>
+<td style="text-align:left">这个shell挂起的进程数目</td>
+</tr>
+<tr>
+<td style="text-align:left">\l</td>
+<td style="text-align:left">这个shell的终端设备文件</td>
+</tr>
+<tr>
+<td style="text-align:left">\n</td>
+<td style="text-align:left">换行符</td>
+</tr>
+<tr>
+<td style="text-align:left">\r</td>
+<td style="text-align:left">回车符</td>
+</tr>
+<tr>
+<td style="text-align:left">\s</td>
+<td style="text-align:left">shell的名字 .如 “bash”</td>
+</tr>
+<tr>
+<td style="text-align:left">\t</td>
+<td style="text-align:left">24小时制时间.如 “16:19:00”</td>
+</tr>
+<tr>
+<td style="text-align:left">\T</td>
+<td style="text-align:left">12小时制时间 ,如 “04:19:00”</td>
+</tr>
+<tr>
+<td style="text-align:left">\@</td>
+<td style="text-align:left">12小时制时间,如 “16:19 pm”</td>
+</tr>
+<tr>
+<td style="text-align:left">\u</td>
+<td style="text-align:left">用户名</td>
+</tr>
+<tr>
+<td style="text-align:left">\v</td>
+<td style="text-align:left">bash版本号</td>
+</tr>
+<tr>
+<td style="text-align:left">\V</td>
+<td style="text-align:left">bash版本号, 包括补丁</td>
+</tr>
+<tr>
+<td style="text-align:left">\w</td>
+<td style="text-align:left">当前工作目录的完整路径</td>
+</tr>
+<tr>
+<td style="text-align:left">\W</td>
+<td style="text-align:left">当前工作目录</td>
+</tr>
+</tbody>
+</table>
+<p>2.<strong>PS2</strong><br>考虑一种使用情况，比如一个命令很长，我们希望不用一行将所有命令全部输入，这时可以在输入一半时键入 <code>\</code> ，然后再换行输入剩下的命令，换行后会有一个 <strong>prompt</strong> 提示，这个提示就是 <strong>PS2</strong>，可以看下面的例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~  ᐅ PS2='input_next_cmd_&gt;'</span><br><span class="line">~  ᐅ ffmpeg -i in.mov -s 600x400 -pix_fmt rgb24 -r 10 -f gif - \</span><br><span class="line"><span class="meta">input_next_cmd_&gt;</span>| gifsicle --optimize=3 --delay=3 out.gif</span><br></pre></td></tr></table></figure>
+<p>3.<strong>PS3</strong><br>Shell语法中使用 <strong>select</strong> 时用到的，下面是 <strong>PS3</strong> 的简单使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">PS3="select a laungage &gt;&gt;" </span><br><span class="line">select person in English Chinese Japanese Korea Exit</span><br><span class="line">do</span><br><span class="line">	 case $person in</span><br><span class="line">				English ) echo "英语" ;;</span><br><span class="line">				Chinese ) echo "汉语" ;;</span><br><span class="line">				Japanese ) echo "日语" ;;</span><br><span class="line">				Korea ) echo "韩语" ;;</span><br><span class="line">				Exit ) break ;;</span><br><span class="line">				* ) echo "\007" ;;</span><br><span class="line">			 esac</span><br><span class="line">		done</span><br></pre></td></tr></table></figure>
+<p>执行该脚本会输出以下内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1) English</span><br><span class="line">2) Chinese</span><br><span class="line">3) Japanese</span><br><span class="line">4) Korea</span><br><span class="line">5) Exit</span><br><span class="line">select a laungage &gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>最后一行就是设置 <strong>PS3</strong> 后的效果   </p>
+<hr>
+<h1 id="第一个shell脚本"><a href="#第一个shell脚本" class="headerlink" title="第一个shell脚本"></a>第一个shell脚本</h1><ol>
+<li>在终端中，键入 <code>touch test.sh</code> 创建一个文件 <strong>test.sh</strong> ,编辑该文件输入以下代码保存退出</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"><span class="meta">#</span> Author : Septenary</span><br><span class="line"><span class="meta">#</span> Copyright (c) septenary.cn</span><br><span class="line"><span class="meta">#</span> Script follows here:</span><br><span class="line">echo "Hello Shell"</span><br></pre></td></tr></table></figure>
+<p>第一行的前两个字符 <strong>#!</strong> （读作 shebang）声明该脚本由哪个解释器执行，第二行 <strong>#</strong> 为注释，最后一行调用 <strong>echo</strong> 命令输出文本信息</p>
+<ol>
+<li>更改 <strong>test.sh</strong> 文件为可执行，在终端上输入     <code>chmod +x test.sh</code></li>
+<li><p>双击 <strong>test.sh</strong> 文件可以看到终端上输出了 “Hello Shell”</p>
+</li>
+<li><p>也可以这样执行 <strong>test.sh</strong>：在终端中键入 <code>/bin/sh ./test.sh</code> ，同样会打印出 “Hello Shell” ，这种方式是将 <strong>./test.sh</strong> 作为一个参数来让 <strong>/bin/sh</strong> 解释执行</p>
+</li>
+</ol>
+<hr>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p><strong>1. Shell中变量的命名规则</strong></p>
+<p>以 <strong>(a-z) (A-Z) (0-9) (_) </strong> 组成， 字母和下划线开头</p>
+<p><strong>2. 定义变量</strong>，Shell 中变量是弱类型的，可以赋值成任何类型</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var="a message"</span><br><span class="line">var=10</span><br></pre></td></tr></table></figure>
+<p><strong>3. 访问变量</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $var</span><br></pre></td></tr></table></figure>
+<p><strong>4. 只读变量</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">var="value1"</span><br><span class="line">readonly var</span><br><span class="line">var="value2</span><br></pre></td></tr></table></figure>
+<p><strong>5. 重置变量</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">var="value"</span><br><span class="line">echo var</span><br><span class="line">unset var</span><br><span class="line">echo var</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h1><p>拷贝下面的代码会看到注释所对应的输出结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">echo '$$' = "$$"    #  $$ 当前shell进程的PID</span><br><span class="line">echo '$0' = "$0"    #  $0 当前script的文件名</span><br><span class="line">echo '$1' = "$1"    #  给当前shell传入的第一个参数，$n 为第n个参数</span><br><span class="line">echo '$#' = "$#"    #  $# 传入参数的个数</span><br><span class="line">echo '$*' = "$*"    #  $*/$@  参数集合</span><br><span class="line">echo '$@' = "$@"    #  $*/$@  参数集合</span><br><span class="line">echo '$?' = "$?"    #  $? 执行前一命令的返回结果（Exist Status）</span><br><span class="line">echo '$!' = "$!"  #  最近一个后台程序的进程ID</span><br><span class="line">for var in $@; do #  输出所有传入参数</span><br><span class="line">		echo $var</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>1. 定义数组</strong> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">items=(aa bb cc)</span><br></pre></td></tr></table></figure>
+<p><strong>2. 定义数组</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">items[0]=aa</span><br><span class="line">items[1]=bb</span><br></pre></td></tr></table></figure>
+<p><strong>3. 引用数组元素</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>&#123;items[n]&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>4. 所有数组元素</strong></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>&#123;items[*]&#125;</span><br><span class="line"><span class="meta">$</span>&#123;items[@]&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>5. Example:</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">items=(aa bb cc dd)</span><br><span class="line">echo $&#123;items[0]&#125;</span><br><span class="line">echo $&#123;items[1]&#125;</span><br><span class="line">echo $&#123;items[2]&#125;</span><br><span class="line">echo $&#123;items[@]&#125;</span><br><span class="line">items[5]="ee"</span><br><span class="line">echo $&#123;items[9]&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p><strong>1.算数运算符</strong></p>
+<ul>
+<li><code>expr $a + $b</code>  加法</li>
+<li><code>expr $a + $b</code> 减法</li>
+<li><code>expr $a \* $b</code> 乘法</li>
+<li><code>expr $a / $b</code> 乘法</li>
+<li><code>expr $a % $b</code> 取模</li>
+<li><code>expr $a == $b</code> 等于</li>
+<li><code>expr $a = $b</code> 不等于</li>
+</ul>
+<p>执行算数运算时需要用反引号 <code>`</code> 或 <code>$()</code>  将运算逻辑括起来 </p>
+<p>example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">b=3</span><br><span class="line">a=5</span><br><span class="line">var=`expr $a + $b` </span><br><span class="line">echo "$a+$b=$var"</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>2.关系运算符</strong></p>
+<ul>
+<li><code>-eq</code> 相等</li>
+<li><code>-ne</code> 不等</li>
+<li><code>-gt</code> 大于</li>
+<li><code>-lt</code> 小于</li>
+<li><code>-ge</code> 大于等于</li>
+<li><code>-le</code> 小于等于</li>
+</ul>
+<p>example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh</span><br><span class="line">b=3</span><br><span class="line">a=5</span><br><span class="line">if [ $a -eq $b ]; then # -eq 相等</span><br><span class="line">	echo "$a equals $b"</span><br><span class="line">else</span><br><span class="line">	echo "$a not equals $b"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>3.布尔运算</strong></p>
+<ul>
+<li><code>!</code>   NOT</li>
+<li><code>-o</code>  OR</li>
+<li><code>-a</code>  AND</li>
+</ul>
+<hr>
+<p><strong>4.字符串操作符</strong></p>
+<ul>
+<li><code>=</code>   相等</li>
+<li><code>!=</code>  不等</li>
+<li><code>-z</code>  长度为0</li>
+<li><code>-n</code>  长度不为0</li>
+<li><code>str</code> check empty(false)</li>
+</ul>
+<p><strong>example</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"><span class="meta">#</span> if [ $1 ] ; then</span><br><span class="line"><span class="meta">#</span>   echo "\$1 is $1"</span><br><span class="line"><span class="meta">#</span> else </span><br><span class="line"><span class="meta">#</span>   echo "\$1 is null"</span><br><span class="line"><span class="meta">#</span> fi</span><br></pre></td></tr></table></figure>
+<p>再来介绍下字符串的处理:<br><img src="http://assets.septenary.cn/user/1/image/f962a130-0d00-4fdb-b1a6-363bd9106db3" alt="Shell字符串处理"></p>
+<p>当然，也可以用 <strong>cut</strong> 命令完成字符串操作，可以在终端键入 <code>man cut</code> 查看更多帮助</p>
+<hr>
+<p><strong>5.文件操作</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-b file</td>
+<td style="text-align:left">是否为块文件</td>
+</tr>
+<tr>
+<td style="text-align:left">-c file</td>
+<td style="text-align:left">是否为字符文件</td>
+</tr>
+<tr>
+<td style="text-align:left">-d file</td>
+<td style="text-align:left">是否为目录</td>
+</tr>
+<tr>
+<td style="text-align:left">-f file</td>
+<td style="text-align:left">文件不是一个目录或特殊文件</td>
+</tr>
+<tr>
+<td style="text-align:left">-g file</td>
+<td style="text-align:left">文件是否有它设置组ID（SGID)</td>
+</tr>
+<tr>
+<td style="text-align:left">-k file</td>
+<td style="text-align:left">是否为sticky</td>
+</tr>
+<tr>
+<td style="text-align:left">-p file</td>
+<td style="text-align:left">是否为named pip</td>
+</tr>
+<tr>
+<td style="text-align:left">-t file</td>
+<td style="text-align:left">文件的 descriptor 是否对终端 开放</td>
+</tr>
+<tr>
+<td style="text-align:left">-u file</td>
+<td style="text-align:left">文件是否设置用户ID（SUID)</td>
+</tr>
+<tr>
+<td style="text-align:left">-r file</td>
+<td style="text-align:left">可读</td>
+</tr>
+<tr>
+<td style="text-align:left">-w file</td>
+<td style="text-align:left">可写</td>
+</tr>
+<tr>
+<td style="text-align:left">-x file</td>
+<td style="text-align:left">可执行</td>
+</tr>
+<tr>
+<td style="text-align:left">-s file</td>
+<td style="text-align:left">文件大小是否不为0</td>
+</tr>
+<tr>
+<td style="text-align:left">-e file</td>
+<td style="text-align:left">文件是否存在</td>
+</tr>
+</tbody>
+</table>
+<p>example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">!/bin/bash</span><br><span class="line">file=/Users/septenary/Desktop/test.sh</span><br><span class="line">if [[ -e $file ]]; then</span><br><span class="line">	echo "exit"</span><br><span class="line">else</span><br><span class="line">	echo "not exit"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>也可以用 <strong>test</strong> 命令完成字符串操作，可以在终端键入 <code>man test</code> 查看更多帮助</p>
+<hr>
+<p><strong>6.条件语句</strong><br>上面的一些例子已经看到，条件语句的简单使用:</p>
+<ul>
+<li>条件语句 以 <code>if</code> 开头 倒序 <code>fi</code> 结尾，表示一端代码块</li>
+<li>分支语句 以 <code>case</code> 开头,倒序  <code>esac</code> 结尾，表示一端代码块</li>
+</ul>
+<p>1）<strong>if…fi statement</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if [[ condition ]]; then</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
+<p>2）<strong>if…else…fi statement</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [[ condition ]]; then</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">else</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>3）<strong>if…elif…else…fi statement</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if [[ condition ]]; then</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">elif [[ condition ]]; then</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">elif [[ condition ]]; then</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>4）<strong>switch</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">name="xiaoming"</span><br><span class="line">case "$name" in</span><br><span class="line">	 "xiaogang") echo "Xiaogang is fat boy." </span><br><span class="line">	 ;;</span><br><span class="line">	 "xiaohong") echo "Xiaohong is beautiful girl." </span><br><span class="line">	 ;;</span><br><span class="line">	 "xiaoming") echo "Xiaoming is a doubi." </span><br><span class="line">	 ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>7. 循环</strong><br>1）while</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">i=0</span><br><span class="line">while [ $i -lt 10 ]; do</span><br><span class="line">	echo -e "$i \c" </span><br><span class="line">	i=`expr $i + 1`</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>2）for</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for var in 1 2 3 4 5 6 7; do</span><br><span class="line"><span class="meta">	#</span>statements</span><br><span class="line">	echo $var</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>3) until</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">i=0</span><br><span class="line">until [ ! $i -lt 10 ]; do</span><br><span class="line">	printf "$i \n"</span><br><span class="line">	i=`expr $i + 1`</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>4) select<br>以上文讲到的PS3为例</p>
+<hr>
+<p><strong>8. 循环控制</strong><br>1）break</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for var1 in 1 2 3 4 5; do</span><br><span class="line">	for var2 in 6 7 8 9 10; do</span><br><span class="line">		if [ $var1 -eq 3 -a $var2 -eq 7 ]; then</span><br><span class="line">			break 2 # 跳出两层循环</span><br><span class="line">		else</span><br><span class="line">			echo "$var1/$var2"</span><br><span class="line">		fi</span><br><span class="line">	done</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>2）continue</p>
+<hr>
+<p><strong>9. 元字符 Metacharacters</strong></p>
+<p>元字符: <code># * ? [ ] &#39; &quot; \ $ ; &amp; ( ) | ^ &lt; &gt;</code><br>1) 单引号 <code>&#39;&#39;</code>  单引号内所有字符原样输出<br>2) 双引号 <code>&quot;&quot;</code> 大部分原样输出，除以下几种</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>   变量引用</span><br><span class="line">``  执行语句</span><br><span class="line">\$  转义，输出 $</span><br><span class="line">\'  转义，输出 '</span><br><span class="line">\"  转义，输出 "</span><br><span class="line">\\  转义，输出 \</span><br></pre></td></tr></table></figure>
+<p>3) 反斜杠 <code>\</code> 转义字符后的的内容原样输出<br>4) 反引号 <code>` xxx `</code> xxx 按命令方式执行</p>
+<hr>
+<p><strong>10.IO重定向</strong></p>
+<p>1）<code>&gt;</code>   output 擦除写入<br>2）<code>&gt;&gt;</code>  output 追加<br>3）<code>&lt;</code>   input 输入<br>4）<code>&lt;&lt;</code>  input here documents</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF</span><br><span class="line">This is a simple lookup program </span><br><span class="line">for good (and bad) restaurants</span><br><span class="line">in Cape Town.</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>5）管道 <code>|</code>    - pipes</p>
+<hr>
+<p><strong>11. shell函数</strong><br>1) 函数创建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">!/bin/bash</span><br><span class="line">week()&#123;</span><br><span class="line">	echo "A week function."</span><br><span class="line">&#125;</span><br><span class="line">week</span><br></pre></td></tr></table></figure>
+<p>2) 传参(anytype)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">!/bin/bash</span><br><span class="line">week()&#123;</span><br><span class="line">	echo "Today is $1"</span><br><span class="line">&#125;</span><br><span class="line">week Friday</span><br></pre></td></tr></table></figure>
+<p>3) 返回值(numeric)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">!/bin/bash</span><br><span class="line">week()&#123;</span><br><span class="line">	echo "Today is $1"</span><br><span class="line">	return 0</span><br><span class="line">&#125;</span><br><span class="line">week Friday</span><br><span class="line">var=$?</span><br><span class="line">echo $var</span><br></pre></td></tr></table></figure>
+<p>4) Nested function</p>
+<p>5) Prompt function</p>
+<hr>
+<h1 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h1><ol>
+<li><p>java中执行一个脚本程序</p>
+<ul>
+<li>Runtime.getRuntime().exec(…);</li>
+<li>也可以用Apcache提供的 <strong>Apache Commons exec library</strong>. <a href="https://commons.apache.org/proper/commons-exec/" target="_blank" rel="noopener">戳这里</a></li>
+</ul>
+</li>
+<li><p>其他高级命令<br><strong>find</strong><br><strong>grep</strong><br><strong>sed</strong><br><strong>awk</strong></p>
+</li>
+</ol>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2015/06/20/bit-operation-in-android/">位运算的巧妙应用</a><a class="next" href="/2015/06/08/lrucache-in-android/">再谈LruCache</a></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=0.0.0"><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=0.0.0"></script><script>var gitalk = new Gitalk({
+  clientID: 'b9c9fa93919f96a68da2',
+  clientSecret: 'a6f794fb428cf3622e117143d47e3dc9950b937f',
+  repo: 'blog-comment',
+  owner: 'ryfthink',
+  admin: ['ryfthink'],
+  distractionFreeMode: false,
+  id: location.pathname
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Chore/">Chore</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/RN/">RN</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devOps/">devOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/它山之石/">它山之石</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/uinput/" style="font-size: 15px;">uinput</a> <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/ELK/" style="font-size: 15px;">ELK</a> <a href="/tags/CNAME/" style="font-size: 15px;">CNAME</a> <a href="/tags/Package-Manager/" style="font-size: 15px;">Package Manager</a> <a href="/tags/Package-Installer/" style="font-size: 15px;">Package Installer</a> <a href="/tags/LruCache/" style="font-size: 15px;">LruCache</a> <a href="/tags/devOps/" style="font-size: 15px;">devOps</a> <a href="/tags/cli/" style="font-size: 15px;">cli</a> <a href="/tags/App-init/" style="font-size: 15px;">App init</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/18/pub-clipkg-npm-repo/">Publishing cli-package to npm repository</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/react-native-tutorial/">ReactNative Tutorial</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/elasticsearch-delete-indices-period/">ElasticSearch 定期删除过期索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/logstash-mapping-config/">Logstash Mapping 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/logstash-pipeline-config/">Logstash Pipeline 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/node-login-module/">mean.septenary.cn 搭建之登录逻辑梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/24/logstash-intergration-aliyun-oss-plugin/">Logstash 集成 aliyun/oss 插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/17/filebeats-in-logstash/">Logstash 之 filebeats</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/16/how-to-intergration-logstash-plugin-2/">Logstash 插件集成</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/14/how-to-intergration-logstash-plugin-1/">Logstash 插件集成(简易版)</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://mean.septenary.cn" title="MEAN栈博客" target="_blank">MEAN栈博客</a><ul></ul><a href="https://www.jianshu.com/u/af0f90bf5ff5" title="馒头映像" target="_blank">馒头映像</a><ul></ul><a href="https://ryfthink.github.io/azhong/" title="AZhongArtist" target="_blank">AZhongArtist</a><ul></ul><a href="https://www.jianshu.com/u/67eb55a34561" title="剑老湿" target="_blank">剑老湿</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Septenary Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

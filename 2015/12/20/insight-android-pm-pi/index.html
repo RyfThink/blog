@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>深入理解 Android Package Manager 与 Package Installer | Septenary Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">深入理解 Android Package Manager 与 Package Installer</h1><a id="logo" href="/.">Septenary Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">深入理解 Android Package Manager 与 Package Installer</h1><div class="post-meta">Dec 20, 2015<span> | </span><span class="category"><a href="/categories/它山之石/">它山之石</a></span></div><div class="post-content"><p>我们总是在安装、卸载apk，然而对于以下几个问题，你知道如何解答吗?</p>
+<ol>
+<li>Package Manager 和 Package Installer 都是什么？</li>
+<li>在 Android 中 APK 文件存储在哪里？</li>
+<li>你知道 APK 安装的具体步骤吗？</li>
+<li>Package Manager 是如何存储数据的？</li>
+<li>在哪里可以找到 Package Manager 和 PackageInstaller 的源码？</li>
+</ol>
+<a id="more"></a>
+<h2 id="什么是-Package-Manager、Package-Installer"><a href="#什么是-Package-Manager、Package-Installer" class="headerlink" title="什么是 Package Manager、Package Installer?"></a>什么是 Package Manager、Package Installer?</h2><p><code>PackageInstaller</code> 是安装普通应用的默认系统应用，它提供了一个接口来管理应用包，并调用 <code>InstallAppProgress</code> Activity 来接收用户指令，<code>InstallAppProgress</code> 会访问  <strong>Package Manager Service</strong> 查看包安装信息，可以在 <code>&lt;Android Source&gt;/packages/apps/PackageInstaller</code> 找到源码</p>
+<p>Package Manager 实际上是管理应用安装、卸载的一个 API，当我们安装 APK 文件时，Package Manager 会解析 APK 文件来显示一些应用信息。当按下 OK 键时，Package Manager 调用方法 <code>installPackage（）</code>  并传递四个参数 : </p>
+<ul>
+<li>uri</li>
+<li>installFlags</li>
+<li>observer</li>
+<li>installPackageName</li>
+</ul>
+<p>此时，Package Manager 会开启一个名为 <strong>package</strong> 的服务，其它任务都由这个服务来完成。在  PackageInstaller 的源码中，可以查看 <strong>PackageInstallerActivity.java</strong> 和 <strong>InstallAppProgress.java</strong> 这两个类，系统在启动时，会将 Package Manager Service 运行在系统进程中，而安装行为则由原生进程（native process）执行。</p>
+<hr>
+<h2 id="Where-are-APK-Files-Stored-in-Android"><a href="#Where-are-APK-Files-Stored-in-Android" class="headerlink" title="Where are APK Files Stored in Android?"></a>Where are APK Files Stored in Android?</h2><ul>
+<li>a. 预装应用 （相机、日历、浏览器等）APK 存储在 <code>/system/app/</code></li>
+<li>b. 用户应用（微博、微信等）APK 存储在 <code>/data/app/</code></li>
+<li>c. Package Manager 会为每个应用创建一个目录 <code>/data/data/&lt;package-name&gt;/</code> 来存储数据库数据，shared preference 数据，本地库（native lib）和 缓存数据。</li>
+</ul>
+<p>You might see an apk file and *.odex file for the same APK. The ODEX file is totally a different discussion and purpose.</p>
+<hr>
+<h2 id="APK-安装内幕"><a href="#APK-安装内幕" class="headerlink" title="APK 安装内幕"></a>APK 安装内幕</h2><p>以下介绍了 Package Manager Service 具体执行步骤</p>
+<ul>
+<li>等待</li>
+<li>将一个 package 添加到安装队列</li>
+<li>确定应用安装的合适位置</li>
+<li>确定是安装还是更新</li>
+<li>将 apk 拷贝到指定路径下</li>
+<li>给 app 分配 UID</li>
+<li>请求安装进程</li>
+<li>创建应用程序的目录，设置权限</li>
+<li>解压dex文件到缓存路径</li>
+<li>列出包的具体信息并映射到 <code>/system/data/packages.xml</code> 中，// To reflect and packages.list / system / data / packages.xml the latest status </li>
+<li>广播安装进度 <code>Intent.ACTION_PACKAGE_ADDED</code> 或 <code>Intent.ACTION_PACKAGE_REPLACED</code></li>
+</ul>
+<p><img src="/imgs/post-151221-1.png" alt="安装步骤"></p>
+<hr>
+<h2 id="Package-Manager-如何存储数据"><a href="#Package-Manager-如何存储数据" class="headerlink" title="Package Manager 如何存储数据?"></a>Package Manager 如何存储数据?</h2><p>Package Manager 将应用信息存储在 <code>/data/system</code> 文件夹下的三个文件中，以 Android 4.0 Ice Cream Sandwich 模拟器镜像为例：</p>
+<h3 id="1-packages-xml"><a href="#1-packages-xml" class="headerlink" title="1. packages.xml"></a>1. packages.xml</h3><p>该文件列出了所有包的权限</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">packages</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">last-platform-version</span> <span class="attr">external</span>=<span class="string">"15"</span> <span class="attr">internal</span>=<span class="string">"15"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">permission-trees</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">permissions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android.permission.CHANGE_WIFI_MULTICAST_STATE"</span> <span class="attr">package</span>=<span class="string">"android"</span> <span class="attr">protection</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android.permission.CLEAR_APP_USER_DATA"</span> <span class="attr">package</span>=<span class="string">"android"</span> <span class="attr">protection</span>=<span class="string">"2"</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">item</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span><span class="tag">&lt;/<span class="name">permissions</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">codepath</span>=<span class="string">"/system/app/Contacts.apk"</span> <span class="attr">flags</span>=<span class="string">"1"</span> <span class="attr">ft</span>=<span class="string">"136567b3990"</span> <span class="attr">it</span>=<span class="string">"136567b3990"</span> <span class="attr">name</span>=<span class="string">"com.android.contacts"</span> <span class="attr">nativelibrarypath</span>=<span class="string">"/data/data/com.android.contacts/lib"</span> <span class="attr">shareduserid</span>=<span class="string">"10001"</span> <span class="attr">ut</span>=<span class="string">"136567b3990"</span> <span class="attr">version</span>=<span class="string">"15"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">sigs</span> <span class="attr">count</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">cert</span> <span class="attr">index</span>=<span class="string">"2"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">cert</span>&gt;</span><span class="tag">&lt;/<span class="name">sigs</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"></span><br><span class="line">... </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">codepath</span>=<span class="string">"/data/app/com.project.t2i-2.apk"</span> <span class="attr">flags</span>=<span class="string">"0"</span> <span class="attr">ft</span>=<span class="string">"13a837c2068"</span> <span class="attr">it</span>=<span class="string">"13a83704ea3"</span> <span class="attr">name</span>=<span class="string">"com.project.t2i"</span> <span class="attr">nativelibrarypath</span>=<span class="string">"/data/data/com.project.t2i/lib"</span> <span class="attr">userid</span>=<span class="string">"10040"</span> <span class="attr">ut</span>=<span class="string">"13a837c2ecb"</span> <span class="attr">version</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">sigs</span> <span class="attr">count</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">cert</span> <span class="attr">index</span>=<span class="string">"3"</span> <span class="attr">key</span>=<span class="string">"308201e530820...c5c7a"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">cert</span>&gt;</span><span class="tag">&lt;/<span class="name">sigs</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">perms</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">item</span>&gt;</span><span class="tag">&lt;/<span class="name">perms</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">permission-trees</span>&gt;</span><span class="tag">&lt;/<span class="name">last-platform-version</span>&gt;</span><span class="tag">&lt;/<span class="name">packages</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个 XML 文件存储了两类数据:</p>
+<h4 id="a-permission"><a href="#a-permission" class="headerlink" title="a.permission"></a>a.permission</h4><p>permission 存储在 <code>&lt;permissions&gt;</code> 标签下，每个 <strong>permission</strong> 有三个属性：</p>
+<ul>
+<li><strong>name</strong>  我们在 AndroidManifest.xml 中用到的权限名</li>
+<li><strong>package</strong>  指明权限所属，大部分情况下都是默认值 <strong>android</strong></li>
+<li><strong>protection</strong>  指定权限安全等级</li>
+</ul>
+<h4 id="b-packages-application"><a href="#b-packages-application" class="headerlink" title="b.packages(application)"></a>b.packages(application)</h4><p>packages 标签下有10个属性和一些子属性</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">序</th>
+<th style="text-align:left">属性名</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">name</td>
+<td style="text-align:left">package name</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">codePath</td>
+<td style="text-align:left">APK 文件的安装位置 (<code>/system/app/</code> 或 <code>/data/app/</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">nativeLibraryPath</td>
+<td style="text-align:left">本地库 (*.so 文件)路径， 默认路径是 <code>/data/data/&lt;package name&gt;/lib/</code></td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">flag</td>
+<td style="text-align:left">ApplicationInfo Flags <a href="http://developer.android.com/reference/android/content/pm/ApplicationInfo.html" target="_blank" rel="noopener">参考更多</a></td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">ft</td>
+<td style="text-align:left">hex 格式的时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">lt</td>
+<td style="text-align:left">首次安装时间戳，hex 格式</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">ut</td>
+<td style="text-align:left">最后更新时间戳，hex 格式</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">version</td>
+<td style="text-align:left">AndroidManifest.xml文件中的 Version Code <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vcode" target="_blank" rel="noopener">参考更多</a></td>
+</tr>
+<tr>
+<td style="text-align:left">9</td>
+<td style="text-align:left">sharedUserId</td>
+<td style="text-align:left">它会与其他有相同 sharedUserID 的程序共享数据，这个 id 与我们在 AndroidManifest 中定义 sharedUserID 的相同 <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#uid" target="_blank" rel="noopener">参考更多</a></td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:left">userId</td>
+<td style="text-align:left">Linux用户ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>子属性</strong></p>
+<ul>
+<li><strong>sigs</strong>  签名信息, count 属性代表证书标签数量</li>
+<li><strong>cert</strong>  全球认证证书</li>
+<li><strong>perms</strong>  发行许可</li>
+</ul>
+<h3 id="2-packages-list"><a href="#2-packages-list" class="headerlink" title="2. packages.list"></a>2. packages.list</h3><p>简单的文本文件，列出了 <strong>package name</strong>、<strong>user id</strong>、<strong>flag</strong> 和 <strong>data</strong> 路径（我并没有找到比较完美的描述，但我猜想 <strong>packages.list</strong> 只保留一些重要的信息，是为了用来快速检索）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">com.android.launcher 10013 0 /data/data/com.android.launcher</span><br><span class="line">com.android.quicksearchbox 10033 0 /data/data/com.android.quicksearchbox</span><br><span class="line">com.android.contacts 10001 0 /data/data/com.android.contacts</span><br><span class="line">com.android.inputmethod.latin 10006 0 /data/data/com.android.inputmethod.latin</span><br></pre></td></tr></table></figure>
+<h3 id="3-packages-stoped-xml"><a href="#3-packages-stoped-xml" class="headerlink" title="3. packages-stoped.xml"></a>3. packages-stoped.xml</h3><p>这个文件列出了哪些 package 是 stopped 状态，stopped 状态的应用程序不会接收到任何广播  <a href="http://droidyue.com/blog/2014/01/04/package-stop-state-since-android-3-dot-1/" target="_blank" rel="noopener">参考更多</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">stopped-packages</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pkg</span> <span class="attr">name</span>=<span class="string">"com.android.widgetpreview"</span> <span class="attr">nl</span>=<span class="string">"1"</span>&gt;</span><span class="tag">&lt;/<span class="name">pkg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pkg</span> <span class="attr">name</span>=<span class="string">"com.example.android.livecubes"</span> <span class="attr">nl</span>=<span class="string">"1"</span>&gt;</span><span class="tag">&lt;/<span class="name">pkg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pkg</span> <span class="attr">name</span>=<span class="string">"com.android.gesture.builder"</span> <span class="attr">nl</span>=<span class="string">"1"</span>&gt;</span><span class="tag">&lt;/<span class="name">pkg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pkg</span> <span class="attr">name</span>=<span class="string">"com.example.android.softkeyboard"</span> <span class="attr">nl</span>=<span class="string">"1"</span>&gt;</span><span class="tag">&lt;/<span class="name">pkg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">stopped-packages</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Where-I-Can-Find-the-Source-Code-of-Package-Manager-and-Package-Installer"><a href="#Where-I-Can-Find-the-Source-Code-of-Package-Manager-and-Package-Installer" class="headerlink" title="Where I Can Find the Source Code of Package Manager and Package Installer?"></a>Where I Can Find the Source Code of Package Manager and Package Installer?</h2><p><strong>Package Manager</strong></p>
+<ul>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/Settings.java" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/pm/Settings.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/PackageManagerService.java" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/pm/PackageManagerService.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/android/content/pm/IPackageManager.aidl" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/pm/IPackageManager.aidl</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/PackageSignatures.java" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/pm/PackageSignatures.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/PreferredActivity.java" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/pm/PreferredActivity.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/PreferredComponent.java" target="_blank" rel="noopener">frameworks/services/java/com/android/server/PreferredComponent.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/android/content/IntentFilter.java" target="_blank" rel="noopener">frameworks/core/java/android/content/IntentFilter.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/android/content/pm/PackageParser.java" target="_blank" rel="noopener">frameworks/base/core/java/android/content/pm/PackageParser.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/Installer.java" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/pm/Installer.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/com/android/internal/app/IMediaContainerService.aidl" target="_blank" rel="noopener">frameworks/base/core/java/com/android/internal/app/IMediaContainerService.aidl</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/packages/DefaultContainerService/src/com/android/defcontainer/DefaultContainerService.java" target="_blank" rel="noopener">frameworks/base/packages/DefaultContainerService/src/com/android/defcontainer/DefaultContainerService.java</a></li>
+</ul>
+<p><strong>Package Installer</strong></p>
+<ul>
+<li><a href="https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/47fe118e0178e9d72c98073ff588ee5cf353258e/src/com/android/packageinstaller/PackageInstallerActivity.java" target="_blank" rel="noopener">packages/apps/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java</a></li>
+<li><a href="https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/47fe118e0178e9d72c98073ff588ee5cf353258e/src/com/android/packageinstaller/PackageUtil.java" target="_blank" rel="noopener">packages/apps/PackageInstaller/src/com/android/packageinstaller/PackageUtil.java</a></li>
+<li><a href="https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/47fe118e0178e9d72c98073ff588ee5cf353258e/src/com/android/packageinstaller/InstallAppProgress.java" target="_blank" rel="noopener">packages/apps/PackageInstaller/src/com/android/packageinstaller/InstallAppProgress.java</a></li>
+</ul>
+<p><a href="https://dzone.com/articles/depth-android-package-manager" target="_blank" rel="noopener">原文链接</a></p>
+</div><div class="tags"><a href="/tags/Package-Manager/">Package Manager</a><a href="/tags/Package-Installer/">Package Installer</a></div><div class="post-nav"><a class="pre" href="/2016/01/09/queue-message-in-android/">Android 异步处理队列消息分析</a><a class="next" href="/2015/12/19/auto-generate-code-in-compiling-time-in-android/">AndroidStudio 编译时自动生成源代码</a></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=0.0.0"><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=0.0.0"></script><script>var gitalk = new Gitalk({
+  clientID: 'b9c9fa93919f96a68da2',
+  clientSecret: 'a6f794fb428cf3622e117143d47e3dc9950b937f',
+  repo: 'blog-comment',
+  owner: 'ryfthink',
+  admin: ['ryfthink'],
+  distractionFreeMode: false,
+  id: location.pathname
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Chore/">Chore</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/RN/">RN</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devOps/">devOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/它山之石/">它山之石</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/ELK/" style="font-size: 15px;">ELK</a> <a href="/tags/CNAME/" style="font-size: 15px;">CNAME</a> <a href="/tags/Package-Manager/" style="font-size: 15px;">Package Manager</a> <a href="/tags/Package-Installer/" style="font-size: 15px;">Package Installer</a> <a href="/tags/LruCache/" style="font-size: 15px;">LruCache</a> <a href="/tags/devOps/" style="font-size: 15px;">devOps</a> <a href="/tags/cli/" style="font-size: 15px;">cli</a> <a href="/tags/uinput/" style="font-size: 15px;">uinput</a> <a href="/tags/App-init/" style="font-size: 15px;">App init</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/18/pub-clipkg-npm-repo/">Publishing cli-package to npm repository</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/react-native-tutorial/">ReactNative Tutorial</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/logstash-mapping-config/">Logstash Mapping 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/elasticsearch-delete-indices-period/">ElasticSearch 定期删除过期索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/logstash-pipeline-config/">Logstash Pipeline 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/node-login-module/">mean.septenary.cn 搭建之登录逻辑梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/24/logstash-intergration-aliyun-oss-plugin/">Logstash 集成 aliyun/oss 插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/17/filebeats-in-logstash/">Logstash 之 filebeats</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/16/how-to-intergration-logstash-plugin-2/">Logstash 插件集成</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/14/how-to-intergration-logstash-plugin-1/">Logstash 插件集成(简易版)</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://mean.septenary.cn" title="MEAN栈博客" target="_blank">MEAN栈博客</a><ul></ul><a href="https://www.jianshu.com/u/af0f90bf5ff5" title="馒头映像" target="_blank">馒头映像</a><ul></ul><a href="https://ryfthink.github.io/azhong/" title="AZhongArtist" target="_blank">AZhongArtist</a><ul></ul><a href="https://www.jianshu.com/u/67eb55a34561" title="剑老湿" target="_blank">剑老湿</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Septenary Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.septenary.cn/"/>
-  <updated>2018-04-20T02:50:01.000Z</updated>
+  <updated>2018-04-20T08:20:29.000Z</updated>
   <id>http://www.septenary.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://www.septenary.cn/2018/03/18/pub-clipkg-npm-repo/"/>
     <id>http://www.septenary.cn/2018/03/18/pub-clipkg-npm-repo/</id>
     <published>2018-03-18T06:47:33.000Z</published>
-    <updated>2018-04-20T02:50:01.000Z</updated>
+    <updated>2018-04-20T08:20:29.000Z</updated>
     
     <summary type="html">
     
@@ -37,11 +37,203 @@
   </entry>
   
   <entry>
-    <title>MEAN 栈实践之 在 CVM、AWS 上的的部署小记</title>
+    <title>ReactNative Tutorial</title>
+    <link href="http://www.septenary.cn/2017/12/25/react-native-tutorial/"/>
+    <id>http://www.septenary.cn/2017/12/25/react-native-tutorial/</id>
+    <published>2017-12-25T04:00:00.000Z</published>
+    <updated>2018-04-20T10:09:20.107Z</updated>
+    
+    <summary type="html">
+    
+      这里简单整理了下在小组分享的 ReactNative 入门知识点
+    
+    </summary>
+    
+      <category term="RN" scheme="http://www.septenary.cn/categories/RN/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Logstash Mapping 配置</title>
+    <link href="http://www.septenary.cn/2017/05/23/logstash-mapping-config/"/>
+    <id>http://www.septenary.cn/2017/05/23/logstash-mapping-config/</id>
+    <published>2017-05-23T04:00:00.000Z</published>
+    <updated>2018-04-20T10:21:25.000Z</updated>
+    
+    <summary type="html">
+    
+      如何配置 Logstash 的 mapping，使其友好地上传到 ElasticSearch 上呢?
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ElasticSearch 定期删除过期索引</title>
+    <link href="http://www.septenary.cn/2017/05/23/elasticsearch-delete-indices-period/"/>
+    <id>http://www.septenary.cn/2017/05/23/elasticsearch-delete-indices-period/</id>
+    <published>2017-05-23T04:00:00.000Z</published>
+    <updated>2018-04-20T10:29:12.000Z</updated>
+    
+    <summary type="html">
+    
+      ES 中历史太久远的日志该如何定期删除呢，看看这里~
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Logstash Pipeline 配置</title>
+    <link href="http://www.septenary.cn/2017/05/16/logstash-pipeline-config/"/>
+    <id>http://www.septenary.cn/2017/05/16/logstash-pipeline-config/</id>
+    <published>2017-05-16T04:00:00.000Z</published>
+    <updated>2018-04-20T10:26:28.024Z</updated>
+    
+    <summary type="html">
+    
+      Logstash 的 pipeline 配置真让我头疼啊，记录一下~
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mean.septenary.cn 搭建之登录逻辑梳理</title>
+    <link href="http://www.septenary.cn/2017/05/05/node-login-module/"/>
+    <id>http://www.septenary.cn/2017/05/05/node-login-module/</id>
+    <published>2017-05-05T04:00:00.000Z</published>
+    <updated>2018-04-20T08:39:49.000Z</updated>
+    
+    <summary type="html">
+    
+      最近用 MEAN 栈技术搭建了一个网站，这里整理了下登录模块的问题
+    
+    </summary>
+    
+      <category term="node" scheme="http://www.septenary.cn/categories/node/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Logstash 集成 aliyun/oss 插件</title>
+    <link href="http://www.septenary.cn/2017/03/24/logstash-intergration-aliyun-oss-plugin/"/>
+    <id>http://www.septenary.cn/2017/03/24/logstash-intergration-aliyun-oss-plugin/</id>
+    <published>2017-03-24T04:00:00.000Z</published>
+    <updated>2018-04-20T10:18:00.000Z</updated>
+    
+    <summary type="html">
+    
+      简单记录了如何在 Logstash 中集成 aliyun/oss 插件
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Logstash 之 filebeats</title>
+    <link href="http://www.septenary.cn/2017/03/17/filebeats-in-logstash/"/>
+    <id>http://www.septenary.cn/2017/03/17/filebeats-in-logstash/</id>
+    <published>2017-03-17T04:00:00.000Z</published>
+    <updated>2018-04-20T10:41:41.673Z</updated>
+    
+    <summary type="html">
+    
+      filebeats 大法好，看看怎么配置它来帮助我们收集主机上的日志数据
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Logstash 插件集成</title>
+    <link href="http://www.septenary.cn/2017/03/16/how-to-intergration-logstash-plugin-2/"/>
+    <id>http://www.septenary.cn/2017/03/16/how-to-intergration-logstash-plugin-2/</id>
+    <published>2017-03-16T04:00:00.000Z</published>
+    <updated>2018-04-20T10:46:26.000Z</updated>
+    
+    <summary type="html">
+    
+      Logstash 插件是个好东西，记录下集成插件的高级玩法~
+    
+    </summary>
+    
+      <category term="devOps" scheme="http://www.septenary.cn/categories/devOps/"/>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Logstash 插件集成(简易版)</title>
+    <link href="http://www.septenary.cn/2017/03/14/how-to-intergration-logstash-plugin-1/"/>
+    <id>http://www.septenary.cn/2017/03/14/how-to-intergration-logstash-plugin-1/</id>
+    <published>2017-03-14T04:00:00.000Z</published>
+    <updated>2018-04-20T10:48:25.000Z</updated>
+    
+    <summary type="html">
+    
+      Logstash 插件是个好东西，这里记录下怎么快速集成一个简单的插件
+    
+    </summary>
+    
+    
+      <category term="ELK" scheme="http://www.septenary.cn/tags/ELK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mac 终端每日格言</title>
+    <link href="http://www.septenary.cn/2017/03/03/daily-motto-on-mac/"/>
+    <id>http://www.septenary.cn/2017/03/03/daily-motto-on-mac/</id>
+    <published>2017-03-03T04:00:00.000Z</published>
+    <updated>2018-04-20T10:02:13.000Z</updated>
+    
+    <summary type="html">
+    
+      在自己的终端上配置个格言玩玩~
+    
+    </summary>
+    
+      <category term="mac" scheme="http://www.septenary.cn/categories/mac/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>MEAN 栈实践之 在 CVM、AWS 上部署小记</title>
     <link href="http://www.septenary.cn/2017/03/02/mean-practice-on-cvm-aws/"/>
     <id>http://www.septenary.cn/2017/03/02/mean-practice-on-cvm-aws/</id>
     <published>2017-03-02T04:00:00.000Z</published>
-    <updated>2018-04-20T02:49:29.000Z</updated>
+    <updated>2018-04-20T09:56:59.832Z</updated>
     
     <summary type="html">
     
@@ -57,11 +249,96 @@
   </entry>
   
   <entry>
+    <title>UINPUT 事件注入</title>
+    <link href="http://www.septenary.cn/2016/01/16/uinput-event-injection/"/>
+    <id>http://www.septenary.cn/2016/01/16/uinput-event-injection/</id>
+    <published>2016-01-16T06:08:12.000Z</published>
+    <updated>2018-04-20T08:35:50.000Z</updated>
+    
+    <summary type="html">
+    
+      初始 Linux 中 uinput 模块
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://www.septenary.cn/categories/Linux/"/>
+    
+    
+      <category term="uinput" scheme="http://www.septenary.cn/tags/uinput/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android 异步处理队列消息分析</title>
+    <link href="http://www.septenary.cn/2016/01/09/queue-message-in-android/"/>
+    <id>http://www.septenary.cn/2016/01/09/queue-message-in-android/</id>
+    <published>2016-01-09T04:00:00.000Z</published>
+    <updated>2018-04-20T11:04:17.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;试想我们有一连串的异步任务需要交给工作线程来做，这种 &lt;strong&gt;“生产者消费者模式”&lt;/strong&gt; 可以通过传统 Java API 的 &lt;code&gt;BlockingQueue&lt;/code&gt; 来实现，也可以用 Android API 提供的 &lt;code&gt;Handler&lt;/code&gt; 和 &lt;code&gt;Looper&lt;/code&gt; 来实现，我来简单分析下~&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://www.septenary.cn/categories/Android/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入理解 Android Package Manager 与 Package Installer</title>
+    <link href="http://www.septenary.cn/2015/12/20/insight-android-pm-pi/"/>
+    <id>http://www.septenary.cn/2015/12/20/insight-android-pm-pi/</id>
+    <published>2015-12-20T07:14:34.000Z</published>
+    <updated>2018-04-20T08:21:06.005Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我们总是在安装、卸载apk，然而对于以下几个问题，你知道如何解答吗?&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Package Manager 和 Package Installer 都是什么？&lt;/li&gt;
+&lt;li&gt;在 Android 中 APK 文件存储在哪里？&lt;/li&gt;
+&lt;li&gt;你知道 APK 安装的具体步骤吗？&lt;/li&gt;
+&lt;li&gt;Package Manager 是如何存储数据的？&lt;/li&gt;
+&lt;li&gt;在哪里可以找到 Package Manager 和 PackageInstaller 的源码？&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="它山之石" scheme="http://www.septenary.cn/categories/%E5%AE%83%E5%B1%B1%E4%B9%8B%E7%9F%B3/"/>
+    
+    
+      <category term="Package Manager" scheme="http://www.septenary.cn/tags/Package-Manager/"/>
+    
+      <category term="Package Installer" scheme="http://www.septenary.cn/tags/Package-Installer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AndroidStudio 编译时自动生成源代码</title>
+    <link href="http://www.septenary.cn/2015/12/19/auto-generate-code-in-compiling-time-in-android/"/>
+    <id>http://www.septenary.cn/2015/12/19/auto-generate-code-in-compiling-time-in-android/</id>
+    <published>2015-12-19T04:00:00.000Z</published>
+    <updated>2018-04-20T10:54:20.162Z</updated>
+    
+    <summary type="html">
+    
+      神奇的事情发生了，写点注释就能自动生成代码，这是怎么做到的呢？
+    
+    </summary>
+    
+      <category term="Android" scheme="http://www.septenary.cn/categories/Android/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Android 盒子适配解决办法汇总</title>
-    <link href="http://www.septenary.cn/2015/12/10/android-box-adaption/"/>
-    <id>http://www.septenary.cn/2015/12/10/android-box-adaption/</id>
+    <link href="http://www.septenary.cn/2015/12/10/android-tv-dimention-adaption/"/>
+    <id>http://www.septenary.cn/2015/12/10/android-tv-dimention-adaption/</id>
     <published>2015-12-10T04:00:00.000Z</published>
-    <updated>2018-04-20T03:38:57.105Z</updated>
+    <updated>2018-04-20T08:18:36.000Z</updated>
     
     <summary type="html">
     
@@ -73,6 +350,62 @@
     
     
       <category term="Android" scheme="http://www.septenary.cn/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AndroidStudio Option 快捷键失效</title>
+    <link href="http://www.septenary.cn/2015/08/15/quickshot-option-notwork-in-android/"/>
+    <id>http://www.septenary.cn/2015/08/15/quickshot-option-notwork-in-android/</id>
+    <published>2015-08-15T04:00:00.000Z</published>
+    <updated>2018-04-20T11:05:01.000Z</updated>
+    
+    <summary type="html">
+    
+      疑难咋整了解一下~
+    
+    </summary>
+    
+      <category term="Chore" scheme="http://www.septenary.cn/categories/Chore/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>WeakHandler 技术分析</title>
+    <link href="http://www.septenary.cn/2015/08/07/weak-handler-in-android/"/>
+    <id>http://www.septenary.cn/2015/08/07/weak-handler-in-android/</id>
+    <published>2015-08-07T04:00:00.000Z</published>
+    <updated>2018-04-20T08:25:45.000Z</updated>
+    
+    <summary type="html">
+    
+      Android 中关于 Handler 内存泄露的讨论
+    
+    </summary>
+    
+      <category term="Android" scheme="http://www.septenary.cn/categories/Android/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Gihub 域名配置 Page build warning</title>
+    <link href="http://www.septenary.cn/2015/08/01/gihub-page-build-warning/"/>
+    <id>http://www.septenary.cn/2015/08/01/gihub-page-build-warning/</id>
+    <published>2015-08-01T02:27:13.000Z</published>
+    <updated>2018-04-20T08:19:32.072Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为什么我托管在 github 上的静态博客总会收到 CNAME 的警告邮件呢?&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="github" scheme="http://www.septenary.cn/categories/github/"/>
+    
+    
+      <category term="CNAME" scheme="http://www.septenary.cn/tags/CNAME/"/>
     
   </entry>
   

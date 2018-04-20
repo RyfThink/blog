@@ -55,15 +55,15 @@
   </entry>
   
   <entry>
-    <title>ElasticSearch 定期删除过期索引</title>
-    <link href="http://www.septenary.cn/2017/05/23/elasticsearch-delete-indices-period/"/>
-    <id>http://www.septenary.cn/2017/05/23/elasticsearch-delete-indices-period/</id>
+    <title>Logstash Mapping 配置</title>
+    <link href="http://www.septenary.cn/2017/05/23/logstash-mapping-config/"/>
+    <id>http://www.septenary.cn/2017/05/23/logstash-mapping-config/</id>
     <published>2017-05-23T04:00:00.000Z</published>
-    <updated>2018-04-20T10:29:12.000Z</updated>
+    <updated>2018-04-20T10:21:25.000Z</updated>
     
     <summary type="html">
     
-      ES 中历史太久远的日志该如何定期删除呢，看看这里~
+      如何配置 Logstash 的 mapping，使其友好地上传到 ElasticSearch 上呢?
     
     </summary>
     
@@ -75,15 +75,15 @@
   </entry>
   
   <entry>
-    <title>Logstash Mapping 配置</title>
-    <link href="http://www.septenary.cn/2017/05/23/logstash-mapping-config/"/>
-    <id>http://www.septenary.cn/2017/05/23/logstash-mapping-config/</id>
+    <title>ElasticSearch 定期删除过期索引</title>
+    <link href="http://www.septenary.cn/2017/05/23/elasticsearch-delete-indices-period/"/>
+    <id>http://www.septenary.cn/2017/05/23/elasticsearch-delete-indices-period/</id>
     <published>2017-05-23T04:00:00.000Z</published>
-    <updated>2018-04-20T10:21:25.000Z</updated>
+    <updated>2018-04-20T10:29:12.000Z</updated>
     
     <summary type="html">
     
-      如何配置 Logstash 的 mapping，使其友好地上传到 ElasticSearch 上呢?
+      ES 中历史太久远的日志该如何定期删除呢，看看这里~
     
     </summary>
     

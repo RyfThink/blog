@@ -92,4 +92,4 @@ theme: maupassant
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/Ryfthink/ryfthink.github.io
+  repo: https://github.com/Ryfthink/blog
